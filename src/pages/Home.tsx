@@ -21,7 +21,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4 p-4 bg-gray-50">
-      <h1 className="text-2xl font-bold">Bienvenue dans le Jeu !</h1>
+      <h1 className="text-2xl font-bold">Bienvenue sur MemoryQuest !</h1>
       <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Entrez votre pseudo" />
       <Select
         value={level}
