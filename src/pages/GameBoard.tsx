@@ -5,22 +5,22 @@ import useCardGame from "@/hooks/useCardGame";
 import useGameState from "@/hooks/useGameState";
 import React, { useEffect } from "react";
 import useCardLogic from "@/hooks/useCardLogic";
-import { Level } from "@/type/GameType";
+import { Difficulty } from "@/type/GameType";
+import usePokemonApi from "@/hooks/usePokemonApi";
 
 const GameBoard: React.FC = () => {
-
-  const isValidLevel = (level: string | null): level is Level => {
+  const isValidLevel = (level: string | null): level is Difficulty => {
     return level === "Facile" || level === "Moyen" || level === "Difficile";
   };
   
   const storedLevel = sessionStorage.getItem("level");
-  const initialLevel: Level = isValidLevel(storedLevel) ? storedLevel : "Facile";
-
+  const initialLevel: Difficulty = isValidLevel(storedLevel) ? storedLevel : "Facile";
   const gameState = useGameState(initialLevel);
-
+  const { allPokemon, loading, error, isReady } = usePokemonApi(gameState);
+  
   const {
     initializeGame,
-  } = useCardGame(gameState);
+  } = useCardGame(gameState, allPokemon);
 
   const {
     cards,
@@ -37,21 +37,34 @@ const GameBoard: React.FC = () => {
     setBestScore,
   } = useCardLogic(gameState);
 
-  const username = sessionStorage.getItem("username") || "undifined";
+  const username = sessionStorage.getItem('username') || 'undefined';
 
   useEffect(() => {
-    initializeGame();
     const savedBestScore = sessionStorage.getItem("bestScore");
     if (savedBestScore) {
       setBestScore(parseInt(savedBestScore, 10));
     }
-  }, [level]);
+  }, []);
+
+  useEffect(() => {
+    if (isReady && allPokemon.length > 0) {
+      initializeGame();
+    }
+  }, [isReady, allPokemon, initializeGame]);
+
+  if (loading) {
+    return <div>Chargement des Pokémon...</div>;
+  }
+
+  if (error) {
+    return <div>Erreur : {error}</div>;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <PlayerInfo level={level} playerName={username} setLevel={setLevel} />
       <h1 className="text-2xl font-bold mb-4">
-        Jeu de Mémoire - Niveau {level}
+        Jeu de Mémoire - Niveau {level.difficulty}
       </h1>
       <p className="mb-2">Nombre de tours : {turns}</p>
       <p className="mb-2">Paires découvertes : {pairsFound}</p>
@@ -70,7 +83,7 @@ const GameBoard: React.FC = () => {
       ) : (
         <div className={`grid grid-cols-1 md:grid-cols-5 gap-4`}>
           {cards.map((card) => (
-            <Card card={card} handleCardClick={handleCardClick}/>
+            <Card key={card.id} card={card} handleCardClick={handleCardClick}/>
           ))}
         </div>
       )}
@@ -79,3 +92,4 @@ const GameBoard: React.FC = () => {
 };
 
 export default GameBoard;
+

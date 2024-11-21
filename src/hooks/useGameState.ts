@@ -1,8 +1,22 @@
-import { Card, Level } from "@/type/GameType";
+import { Card, Difficulty, Level } from "@/type/GameType";
 import { useState } from "react";
 
-const useGameState = (initialLevel: Level) => {
-    const [level, setLevel] = useState<Level>(initialLevel);
+const DIFFICULTY_PAIRS: Record<Difficulty, number> = {
+  'Facile': 4,
+  'Moyen': 5,
+  'Difficile': 10
+};
+
+export function getLevel(difficulty: Difficulty): Level {
+  return {
+    difficulty,
+    pairs: DIFFICULTY_PAIRS[difficulty]
+  };
+}
+
+const useGameState = (initialLevel: Difficulty) => {
+  
+    const [level, setLevel] = useState<Level>(getLevel(initialLevel));
     const [cards, setCards] = useState<Card[]>([]);
     const [turns, setTurns] = useState(0);
     const [flippedCards, setFlippedCards] = useState<Card[]>([]);

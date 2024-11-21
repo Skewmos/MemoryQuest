@@ -1,17 +1,19 @@
 import React from "react";
 import Select from "./Select";
+import { Difficulty, Level } from "@/type/GameType";
+import { getLevel } from "@/hooks/useGameState";
 
 type LevelChangeDialogProps = {
-  level: string;
-  setLevel: (level: string) => void;
+  level: Level;
+  setLevel: (level: Level) => void;
 };
 
 const LevelChangeDialog: React.FC<LevelChangeDialogProps> = ({ level, setLevel }) => {
   return (
     <div className="mb-3">
           <Select
-      value={level}
-      onChange={(value) => setLevel(value)}
+      value={level.difficulty}
+      onChange={(value) => setLevel(getLevel(value as Difficulty))}
       options={[
         { label: 'Facile', value: 'Facile' },
         { label: 'Moyen', value: 'Moyen' },
