@@ -12,39 +12,30 @@ const GameBoard: React.FC = () => {
   const isValidLevel = (level: string | null): level is Difficulty => {
     return level === "Facile" || level === "Moyen" || level === "Difficile";
   };
-  
+
   const storedLevel = sessionStorage.getItem("level");
-  const initialLevel: Difficulty = isValidLevel(storedLevel) ? storedLevel : "Facile";
+  const initialLevel: Difficulty = isValidLevel(storedLevel)
+    ? storedLevel
+    : "Facile";
   const gameState = useGameState(initialLevel);
   const { allPokemon, loading, error, isReady } = usePokemonApi(gameState);
-  
-  const {
-    initializeGame,
-  } = useCardGame(gameState, allPokemon);
 
-  const {
-    cards,
-    gameWon,
-    level,
-    pairsFound,
-    setLevel,
-    turns,
-  } = gameState;
+  const { initializeGame } = useCardGame(gameState, allPokemon);
 
-  const {
-    bestScore,
-    handleCardClick,
-    setBestScore,
-  } = useCardLogic(gameState);
+  const { cards, gameWon, level, pairsFound, setLevel, turns } = gameState;
 
-  const username = sessionStorage.getItem('username') || 'undefined';
+  const { bestScore, handleCardClick, setBestScore } = useCardLogic(gameState);
+
+  const username = sessionStorage.getItem("username") || "undefined";
+
+  console.log(allPokemon);
 
   useEffect(() => {
     const savedBestScore = sessionStorage.getItem("bestScore");
     if (savedBestScore) {
       setBestScore(parseInt(savedBestScore, 10));
     }
-  }, []);
+  }, [setBestScore]);
 
   useEffect(() => {
     if (isReady && allPokemon.length > 0) {
@@ -82,9 +73,17 @@ const GameBoard: React.FC = () => {
         />
       ) : (
         <div className={`grid grid-cols-1 md:grid-cols-5 gap-4`}>
-          {cards.map((card) => (
-            <Card key={card.id} card={card} handleCardClick={handleCardClick}/>
-          ))}
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            cards.map((card) => (
+              <Card
+                key={card.id}
+                card={card}
+                handleCardClick={handleCardClick}
+              />
+            ))
+          )}
         </div>
       )}
     </div>
@@ -92,4 +91,3 @@ const GameBoard: React.FC = () => {
 };
 
 export default GameBoard;
-
