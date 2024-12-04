@@ -18,12 +18,13 @@ type SelectProps = {
   options: Option[];
   value: string;
   onChange: (value: string) => void;
+  className: string;
 };
 
-const Select: React.FC<SelectProps> = ({ options, value, onChange }) => {
+const Select: React.FC<SelectProps> = ({ options, value, onChange, className}) => {
   return (
     <ShadSelect onValueChange={onChange}>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className={className}>
         <SelectValue placeholder="Choisissez un niveau" />
       </SelectTrigger>
       <SelectContent>

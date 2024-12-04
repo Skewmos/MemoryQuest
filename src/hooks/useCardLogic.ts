@@ -1,9 +1,20 @@
 import { Card, GameState } from "@/type/GameType";
 import { useState } from "react";
+import {Howl, Howler} from 'howler';
+import PokeballOpen from '@/assets/sound/PokeballOpen.mp3';
+
 
 const useCardLogic = (gameState: GameState) => {
   const [showMismatch, setShowMismatch] = useState(false);
   const [bestScore, setBestScore] = useState<number | null>(null);
+  const sound = new Howl({
+    src: [PokeballOpen],
+    html5: true,
+  });
+
+  const playSound = () => {
+    sound.play();
+  };
 
   const {
     cards,
@@ -17,6 +28,7 @@ const useCardLogic = (gameState: GameState) => {
   } = gameState;
 
   const handleCardClick = (card: Card) => {
+    playSound();
     if (flippedCards.length === 2 || card.flipped || card.matched) return;
 
     const newFlippedCards = [...flippedCards, { ...card, flipped: true }];

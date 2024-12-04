@@ -4,10 +4,11 @@ import { Button as ShadButton } from './ui/button';
 type ButtonProps = {
   onClick: () => void;
   label: string;
+  className: string;
 };
 
-const Button: React.FC<ButtonProps> = ({ onClick, label }) => (
-  <ShadButton onClick={onClick} className="w-full">
+const Button: React.FC<ButtonProps> = ({ onClick, label, className }) => (
+  <ShadButton onClick={onClick} className={className}>
     {label}
   </ShadButton>
 );

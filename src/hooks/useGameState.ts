@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const DIFFICULTY_PAIRS: Record<Difficulty, number> = {
   'Facile': 4,
-  'Moyen': 5,
+  'Moyen': 6,
   'Difficile': 10
 };
 
@@ -22,7 +22,6 @@ const useGameState = (initialLevel: Difficulty) => {
     const [flippedCards, setFlippedCards] = useState<Card[]>([]);
     const [pairsFound, setPairsFound] = useState(0);
     const [gameWon, setGameWon] = useState(false);
-
     const resetGame = () => {
         setCards([]);
         setTurns(0);

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { PokemonDetail } from "./../type/GameType";
-import { GameState } from "@/type/GameType";
+import { useState, useEffect } from 'react';
+import { GameState, PokemonDetail } from '@/type/GameType'; // Assurez-vous que ces types sont correctement importés
 
 const usePokemonApi = (gameState: GameState) => {
   const [allPokemon, setAllPokemon] = useState<PokemonDetail[]>([]);
@@ -9,35 +8,44 @@ const usePokemonApi = (gameState: GameState) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const fetchPokemon = async (limit: number) => {
+    const fetchRandomPokemon = async (count: number) => {
       try {
         setLoading(true);
-        const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=${limit}`
-        );
-        const jsonResponse = await response.json();
+        
+        // Obtenir le nombre total de Pokémon
+        const totalResponse = await fetch('https://pokeapi.co/api/v2/pokemon-species/');
+        const totalData = await totalResponse.json();
+        const totalPokemon = totalData.count;
+
+        // Générer des IDs aléatoires uniques
+        const randomIds = new Set<number>();
+        while (randomIds.size < count) {
+          randomIds.add(Math.floor(Math.random() * totalPokemon) + 1);
+        }
+
+        // Récupérer les détails des Pokémon aléatoires
         const pokemonDetails = await Promise.all(
-          jsonResponse.results.map(
-            async (pokemon: { name: string; url: string }) => {
-              const detailResponse = await fetch(pokemon.url);
-              const pokemonDetail = await detailResponse.json();
-              return {
-                name: pokemon.name,
-                details: pokemonDetail,
-              };
-            }
-          )
+          Array.from(randomIds).map(async (id) => {
+            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            const pokemonDetail = await response.json();
+            return {
+              name: pokemonDetail.name,
+              details: pokemonDetail,
+            };
+          })
         );
+
         setAllPokemon(pokemonDetails);
         setIsReady(true);
-      } catch {
+      } catch (err) {
         setError("Erreur lors de la récupération des Pokémon");
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPokemon(gameState.level.pairs);
+    fetchRandomPokemon(gameState.level.pairs);
   }, [gameState.level.pairs]);
 
   return { allPokemon, loading, error, isReady };
