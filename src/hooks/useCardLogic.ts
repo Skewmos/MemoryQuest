@@ -43,7 +43,7 @@ const useCardLogic = (gameState: GameState) => {
 		}
 	};
 
-	const checkForMatch = (newFlippedCards: CardType[]) => {
+	const checkForMatch = (newFlippedCards: Card[]) => {
 		const [firstCard, secondCard] = newFlippedCards;
 
 		if (firstCard.pairId === secondCard.pairId) {
