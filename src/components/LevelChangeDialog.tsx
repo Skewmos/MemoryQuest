@@ -12,14 +12,13 @@ const LevelChangeDialog: React.FC<LevelChangeDialogProps> = ({ level, setLevel }
   return (
     <div className="mb-3">
           <Select
-      value={level.difficulty}
-      onChange={(value) => setLevel(getLevel(value as Difficulty))}
-      options={[
-        { label: 'Facile', value: 'Facile' },
-        { label: 'Moyen', value: 'Moyen' },
-        { label: 'Difficile', value: 'Difficile' },
-      ]}
-    />
+        value={level.difficulty}
+        onChange={(value) => setLevel(getLevel(value as Difficulty))}
+        options={[
+          { label: 'Facile', value: 'Facile' },
+          { label: 'Moyen', value: 'Moyen' },
+          { label: 'Difficile', value: 'Difficile' },
+        ]} className={""}    />
     </div>
   );
 };

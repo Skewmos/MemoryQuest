@@ -2,7 +2,7 @@ import { Card, GameState, PokemonDetail, Theme } from "@/type/GameType";
 import { useCallback } from "react";
 
 const getImageForTheme = (
-  theme: Theme | {},
+  theme: Theme,
   index: number,
   allPokemon: PokemonDetail[]
 ) => {

@@ -24,7 +24,7 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({
     <div className="bg-cyan-800 text-white shadow-md w-full text-center fixed top-0 left-0 right-0 p-4">
       <h2 className="text-lg font-bold">Joueur : {playerName}</h2>
       <p className="text-md">Niveau : {level.difficulty}</p>
-      <Button onClick={openModal} label="Changer de niveau"></Button>
+      <Button onClick={openModal} label="Changer de niveau" className={""}></Button>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -39,7 +39,7 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({
                 closeModal();
               }}
             />
-            <Button onClick={closeModal} label="Fermer" />
+            <Button onClick={closeModal} label="Fermer" className={""} />
           </div>
         </div>
       )}

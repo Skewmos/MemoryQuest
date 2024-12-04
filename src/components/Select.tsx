@@ -21,7 +21,7 @@ type SelectProps = {
   className: string;
 };
 
-const Select: React.FC<SelectProps> = ({ options, value, onChange, className}) => {
+const Select: React.FC<SelectProps> = ({ options, onChange, className}) => {
   return (
     <ShadSelect onValueChange={onChange}>
       <SelectTrigger className={className}>
