@@ -1,6 +1,6 @@
 import { Card, GameState } from "@/type/GameType";
 import { useState } from "react";
-import {Howl, Howler} from 'howler';
+import {Howl} from 'howler';
 import PokeballOpen from '@/assets/sound/PokeballOpen.mp3';
 
 
