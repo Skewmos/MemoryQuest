@@ -10,100 +10,99 @@ import usePokemonApi from "@/hooks/usePokemonApi";
 import Loader from "@/components/Loader";
 
 const GameBoard: React.FC = () => {
-  const isValidLevel = (level: string | null): level is Difficulty => {
-    return level === "Facile" || level === "Moyen" || level === "Difficile";
-  };
-  const storedLevel = sessionStorage.getItem("level");
-  const initialLevel: Difficulty = isValidLevel(storedLevel)
-    ? storedLevel
-    : "Facile";
-  const gameState = useGameState(initialLevel);
-  const { allPokemon, loading, error, isReady } = usePokemonApi(gameState);
-  const { initializeGame } = useCardGame(gameState, allPokemon);
-  const { cards, gameWon, level, pairsFound, setLevel, turns } = gameState;
-  const { bestScore, handleCardClick, setBestScore } = useCardLogic(gameState);
-  const username = sessionStorage.getItem("username") || "undefined";
+	const isValidLevel = (level: string | null): level is Difficulty => {
+		return level === "Facile" || level === "Moyen" || level === "Difficile";
+	};
+	const storedLevel = sessionStorage.getItem("level");
+	const initialLevel: Difficulty = isValidLevel(storedLevel)
+		? storedLevel
+		: "Facile";
+	const gameState = useGameState(initialLevel);
+	const { allPokemon, loading, error, isReady } = usePokemonApi(gameState);
+	const { initializeGame } = useCardGame(gameState, allPokemon);
+	const { cards, gameWon, level, pairsFound, setLevel, turns } = gameState;
+	const { bestScore, handleCardClick, setBestScore } = useCardLogic(gameState);
+	const username = sessionStorage.getItem("username") || "undefined";
 
-  const gridClasses = `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4`;
+	const gridClasses = `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4`;
 
-  useEffect(() => {
-    const savedBestScore = sessionStorage.getItem("bestScore");
-    if (savedBestScore) {
-      setBestScore(parseInt(savedBestScore, 10));
-    }
-  }, [setBestScore]);
+	useEffect(() => {
+		const savedBestScore = sessionStorage.getItem("bestScore");
+		if (savedBestScore) {
+			setBestScore(parseInt(savedBestScore, 10));
+		}
+	}, [setBestScore]);
 
-  useEffect(() => {
-    if (isReady && allPokemon.length > 0) {
-      initializeGame();
-    }
-  }, [isReady, allPokemon, initializeGame]);
+	useEffect(() => {
+		if (isReady && allPokemon.length > 0) {
+			initializeGame();
+		}
+	}, [isReady, allPokemon, initializeGame]);
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <Loader />
-      </div>
-    );
-  }
+	if (loading) {
+		return (
+			<div
+				style={{
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					height: "100vh",
+				}}
+			>
+				<Loader />
+			</div>
+		);
+	}
 
-  if (error) {
-    return <div>Erreur : {error}</div>;
-  }
+	if (error) {
+		return <div>Erreur : {error}</div>;
+	}
 
+	return (
+		<div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+			<PlayerInfo level={level} playerName={username} setLevel={setLevel} />
+			<div className="mt-20 pt-10">
+				<p className="mb-2">Nombre de tours : {turns}</p>
+				<p className="mb-2">Paires découvertes : {pairsFound}</p>
+				{bestScore !== null && (
+					<p className="mb-4 text-green-600">
+						Meilleur score : {bestScore} tours
+					</p>
+				)}
+			</div>
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      <PlayerInfo level={level} playerName={username} setLevel={setLevel} />
-      <div className="mt-20 pt-10">
-      <p className="mb-2">Nombre de tours : {turns}</p>
-      <p className="mb-2">Paires découvertes : {pairsFound}</p>
-      {bestScore !== null && (
-        <p className="mb-4 text-green-600">
-          Meilleur score : {bestScore} tours
-        </p>
-      )}
-      </div>
-
-      {gameWon ? (
-        <CongratulationsDialog
-          turns={turns}
-          bestScore={bestScore}
-          isGameCompleted={gameWon}
-        />
-      ) : (
-        <div className={`grid ${gridClasses} gap-4`}>
-          {loading ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}
-            >
-              <Loader />
-            </div>
-          ) : (
-            cards.map((card) => (
-              <Card
-                key={card.id}
-                card={card}
-                handleCardClick={handleCardClick}
-              />
-            ))
-          )}
-        </div>
-      )}
-    </div>
-  );
+			{gameWon ? (
+				<CongratulationsDialog
+					turns={turns}
+					bestScore={bestScore}
+					isGameCompleted={gameWon}
+				/>
+			) : (
+				<div className={`grid ${gridClasses} gap-4`}>
+					{loading ? (
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								height: "100vh",
+							}}
+						>
+							<Loader />
+						</div>
+					) : (
+						cards.map((card) => (
+							<Card
+								key={card.id}
+								card={card}
+								handleCardClick={handleCardClick}
+							/>
+						))
+					)}
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default GameBoard;

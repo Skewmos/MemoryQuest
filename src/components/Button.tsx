@@ -1,16 +1,16 @@
-import React from 'react';
-import { Button as ShadButton } from './ui/button';
+import React from "react";
+import { Button as ShadButton } from "./ui/button";
 
 type ButtonProps = {
-  onClick: () => void;
-  label: string;
-  className: string;
+	onClick: () => void;
+	label: string;
+	className: string;
 };
 
 const Button: React.FC<ButtonProps> = ({ onClick, label, className }) => (
-  <ShadButton onClick={onClick} className={className}>
-    {label}
-  </ShadButton>
+	<ShadButton onClick={onClick} className={className}>
+		{label}
+	</ShadButton>
 );
 
 export default Button;
