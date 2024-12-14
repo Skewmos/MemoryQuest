@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
 	Select,
 	SelectContent,
@@ -20,12 +20,9 @@ export default function ThemeSelector({
 	onThemeSelect,
 	className,
 }: ThemeSelectorProps) {
-	const [selectedTheme, setSelectedTheme] = useState<Theme>(themes[0]);
-
 	const handleThemeChange = (value: string) => {
 		const theme = themes.find((t) => t.name === value);
 		if (theme) {
-			setSelectedTheme(theme);
 			onThemeSelect(theme);
 		}
 	};
