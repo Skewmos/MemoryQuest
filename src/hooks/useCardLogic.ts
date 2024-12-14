@@ -27,7 +27,6 @@ const useCardLogic = (gameState: GameState) => {
 	} = gameState;
 
 	const handleCardClick = (card: Card) => {
-		playSound();
 		if (flippedCards.length === 2 || card.flipped || card.matched) return;
 
 		const newFlippedCards = [...flippedCards, { ...card, flipped: true }];
@@ -47,6 +46,7 @@ const useCardLogic = (gameState: GameState) => {
 		const [firstCard, secondCard] = newFlippedCards;
 
 		if (firstCard.pairId === secondCard.pairId) {
+			playSound();
 			setCards((prevCards) =>
 				prevCards.map((card) =>
 					card.pairId === firstCard.pairId ? { ...card, matched: true } : card,

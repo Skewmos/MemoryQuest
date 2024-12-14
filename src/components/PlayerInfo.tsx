@@ -21,13 +21,13 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({
 	const closeModal = () => setIsModalOpen(false);
 
 	return (
-		<div className="bg-cyan-800 text-white shadow-md w-full text-center fixed top-0 left-0 right-0 p-4">
+		<div className="bg-rose-700 text-white shadow-md w-full text-center fixed top-0 left-0 right-0 p-4">
 			<h2 className="text-lg font-bold">Joueur : {playerName}</h2>
 			<p className="text-md">Niveau : {level.difficulty}</p>
 			<Button
 				onClick={openModal}
 				label="Changer de niveau"
-				className={""}
+				className={"bg-rose-600 hover:bg-rose-900"}
 			></Button>
 
 			{isModalOpen && (

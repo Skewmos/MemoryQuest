@@ -8,6 +8,7 @@ import useCardLogic from "@/hooks/useCardLogic";
 import { Difficulty } from "@/type/GameType";
 import usePokemonApi from "@/hooks/usePokemonApi";
 import Loader from "@/components/Loader";
+import Button from "../components/Button";
 
 const GameBoard: React.FC = () => {
 	const isValidLevel = (level: string | null): level is Difficulty => {
@@ -23,8 +24,11 @@ const GameBoard: React.FC = () => {
 	const { cards, gameWon, level, pairsFound, setLevel, turns } = gameState;
 	const { bestScore, handleCardClick, setBestScore } = useCardLogic(gameState);
 	const username = sessionStorage.getItem("username") || "undefined";
-
 	const gridClasses = `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4`;
+	
+	const replay = () => {
+		window.location.reload();
+	}
 
 	useEffect(() => {
 		const savedBestScore = sessionStorage.getItem("bestScore");
@@ -61,7 +65,7 @@ const GameBoard: React.FC = () => {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
 			<PlayerInfo level={level} playerName={username} setLevel={setLevel} />
-			<div className="mt-20 pt-10">
+			<div className="mt-10 pt-10">
 				<p className="mb-2">Nombre de tours : {turns}</p>
 				<p className="mb-2">Paires découvertes : {pairsFound}</p>
 				{bestScore !== null && (
@@ -69,6 +73,12 @@ const GameBoard: React.FC = () => {
 						Meilleur score : {bestScore} tours
 					</p>
 				)}
+				{gameWon && 	<Button
+				onClick={replay}
+				label="Rejouer une partie"
+				className={"bg-rose-600 hover:bg-rose-900"}
+			></Button>}
+			
 			</div>
 
 			{gameWon ? (

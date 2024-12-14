@@ -22,12 +22,6 @@ export default function ThemeSelector({
 }: ThemeSelectorProps) {
 	const [selectedTheme, setSelectedTheme] = useState<Theme>(themes[0]);
 
-	useEffect(() => {
-		document.body.style.backgroundImage = `url(${selectedTheme.image})`;
-		document.body.style.backgroundSize = "cover";
-		document.body.style.backgroundPosition = "center";
-	}, [selectedTheme]);
-
 	const handleThemeChange = (value: string) => {
 		const theme = themes.find((t) => t.name === value);
 		if (theme) {

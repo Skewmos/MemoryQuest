@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center min-h-screen space-y-6 p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+		<div className="flex flex-col items-center justify-center min-h-screen space-y-6 p-6 bg-gradient-to-r from-rose-300 to-rose-500 text-white">
 			<h1 className="text-4xl font-extrabold mb-4">
 				Bienvenue sur MemoryQuest !
 			</h1>
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
 				value={username}
 				onChange={(e) => setUsername(e.target.value)}
 				placeholder="Entrez votre pseudo"
-				className="w-64 p-2 rounded-lg border-none shadow-md focus:outline-none focus:ring-2 focus:ring-purple-300"
+				className="w-64 p-2 rounded-lg border-none shadow-md focus:outline-none focus:ring-2 focus:ring-purple-300 focus-visible:ring-purple-300 placeholder:text-white"
 			/>
 
 			<Select
@@ -69,7 +69,7 @@ const Home: React.FC = () => {
 			<Button
 				onClick={handleStartGame}
 				label="Démarrer le Jeu"
-				className="mt-4 px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
+				className="mt-4 px-6 py-2 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
 			/>
 		</div>
 	);
