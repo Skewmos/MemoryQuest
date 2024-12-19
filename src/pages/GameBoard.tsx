@@ -9,6 +9,7 @@ import { Difficulty } from "@/type/GameType";
 import usePokemonApi from "@/hooks/usePokemonApi";
 import Loader from "@/components/Loader";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const GameBoard: React.FC = () => {
 	const isValidLevel = (level: string | null): level is Difficulty => {
@@ -25,9 +26,10 @@ const GameBoard: React.FC = () => {
 	const { bestScore, handleCardClick, setBestScore } = useCardLogic(gameState);
 	const username = sessionStorage.getItem("username") || "undefined";
 	const gridClasses = `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4`;
+	const navigate = useNavigate();
 	
 	const replay = () => {
-		window.location.reload();
+		navigate(0);
 	}
 
 	useEffect(() => {
